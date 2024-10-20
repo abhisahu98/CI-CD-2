@@ -1,0 +1,29 @@
+- remote_user: ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    # Installing the docker container
+    - name: Installing docker_container
+      apt:
+        name: docker.io
+        state:  present
+    # Moved Docker login before pulling the image
+    - name: Log in to Docker Hub
+      docker_login:
+        username: "containerguru1"
+        password: "Madmithra!27"
+    # Pull Docker from the dockerhub credentials
+    - name: Pull Docker image from Docker Hub
+      docker_image:
+        name: containerguru1/ci-cd
+        tag: latest
+        source: pull
+    # Running the images Docker container
+    - name: Run Docker container
+      docker_container:
+        name: my_container
+        image: containerguru1/ci-cd
+        state: started
+        restart_policy: always
+        ports:
+          - "81:80"  # Adjust the ports as needed
