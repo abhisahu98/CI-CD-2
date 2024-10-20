@@ -1,9 +1,9 @@
 pipeline {
-  agent 
-  triggers {
-        githubPush()  // This ensures that the pipeline will trigger automatically on push events.
-    }
+  agent any  // This specifies the pipeline will run on any available Jenkins agent
 
+  triggers {
+    githubPush()  // This ensures the pipeline triggers automatically on GitHub push events
+  }
 
   stages {
     stage('Checkout') {
@@ -33,6 +33,9 @@ pipeline {
     stage('Deploy to AWS EC2') {
       steps {
         script {
+          // Ensure permissions are correct for the private key
+          sh 'chmod 600 /var/lib/jenkins/workspace/CI-CD-Pipeline/ssh8633610058472328627.key'
+
           // Set the path to Ansible in case Jenkins can't find it
           withEnv(["PATH+ANSIBLE=/usr/local/bin:/usr/bin"]) {
             // Use sh step to run ansible-playbook command
@@ -44,5 +47,3 @@ pipeline {
       }
     }
   }
-}
-
