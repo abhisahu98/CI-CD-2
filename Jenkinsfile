@@ -2,7 +2,7 @@ pipeline {
   agent any  // This specifies the pipeline will run on any available Jenkins agent
 
   triggers {
-    githubPush()  // This ensures the pipeline triggers automatically on GitHub push events
+    githubPush()  // Ensures the pipeline triggers automatically on GitHub push events
   }
 
   stages {
@@ -47,3 +47,23 @@ pipeline {
       }
     }
   }
+
+  post {
+    always {
+      // Optionally, you can clean up Docker images
+      script {
+        try {
+          dockerImage.remove()  // Removes the built Docker image to free up space
+        } catch (Exception e) {
+          echo "Image cleanup failed: ${e}"
+        }
+      }
+    }
+    failure {
+      echo "Pipeline failed!"
+    }
+    success {
+      echo "Pipeline completed successfully!"
+    }
+  }
+}
