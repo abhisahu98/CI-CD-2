@@ -1,5 +1,9 @@
 pipeline {
-  agent any
+  agent 
+  triggers {
+        githubPush()  // This ensures that the pipeline will trigger automatically on push events.
+    }
+
 
   stages {
     stage('Checkout') {
