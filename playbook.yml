@@ -10,19 +10,19 @@
     # Moved Docker login before pulling the image
     - name: Log in to Docker Hub
       docker_login:
-        username: "containerguru1"
-        password: "Madmithra!27"
+        username: "abhishek199"
+        password: "Abhisahu@123"
     # Pull Docker from the dockerhub credentials
     - name: Pull Docker image from Docker Hub
       docker_image:
-        name: containerguru1/ci-cd
+        name: abhishek199/cicd
         tag: latest
         source: pull
     # Running the images Docker container
     - name: Run Docker container
       docker_container:
         name: my_container
-        image: containerguru1/ci-cd
+        image: abhishek199/cicd
         state: started
         restart_policy: always
         ports:
